@@ -14,7 +14,7 @@ function CountdownDisplay({ countdown, isCritical, interval, isPaused }) {
     } else if (isPaused) {
       setStackCount(0);
     }
-  }, [countdown]);
+  }, [countdown, isPaused]);
 
   return (
     <div className="relative w-1/2 flex justify-center items-center m-12">
