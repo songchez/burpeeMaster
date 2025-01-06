@@ -12,9 +12,9 @@ function ProgressBar({
   const isCritical = progressPercentage >= 85;
 
   return (
-    <div className="w-1/2 p-4 border-2 border-white rounded shadow-lg mb-4">
+    <div className="w-1/2 p-4 border-2 border-white rounded shadow-md shadow-gray-700 mb-6 mt-2">
       <p
-        className={`text-lg ${
+        className={`flex justify-center text-lg ${
           isCompleted
             ? "text-green-500"
             : isCritical
@@ -27,7 +27,7 @@ function ProgressBar({
         </strong>
       </p>
       <div className="flex justify-center pt-5">
-        <div className="progress-bar w-full bg-gray-300 h-16 rounded mt-5">
+        <div className="progress-bar w-full bg-zinc-600 h-16 rounded mt-5">
           <div
             className={`h-16 rounded ${
               isCompleted

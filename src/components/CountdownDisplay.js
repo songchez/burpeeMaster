@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 function CountdownDisplay({ countdown, isCritical, interval, isPaused }) {
   const [stackCount, setStackCount] = useState(0);
 
-  const radius = 70; // 원의 반지름
+  const radius = 74; // 원의 반지름
   const circumference = 2 * Math.PI * radius; // 원의 둘레
   const strokeDashoffset = (stackCount / interval) * circumference;
 
@@ -11,8 +11,9 @@ function CountdownDisplay({ countdown, isCritical, interval, isPaused }) {
   useEffect(() => {
     if (countdown !== null && countdown > 0) {
       setStackCount((prev) => prev + 1);
-    } else if (isPaused) {
-      setStackCount(0);
+    }
+    if (isPaused) {
+      setStackCount(-1); //+1된 상태로 끝났기 때문에 오프셋을 줘야함
     }
   }, [countdown, isPaused]);
 
@@ -38,7 +39,7 @@ function CountdownDisplay({ countdown, isCritical, interval, isPaused }) {
           cx="80"
           cy="80"
           r={radius}
-          stroke={isCritical ? "red" : "white"}
+          stroke={isCritical || countdown === 1 ? "#ef4444" : "white"}
           strokeWidth="13"
           fill="none"
           strokeDasharray={circumference}
@@ -53,7 +54,7 @@ function CountdownDisplay({ countdown, isCritical, interval, isPaused }) {
       {/* 숫자 */}
       <p
         className={`text-9xl font-bold text-center ${
-          isCritical ? "text-red-500" : "text-white"
+          isCritical || countdown === 1 ? "text-red-500" : "text-white"
         }`}
       >
         {countdown !== null ? `${countdown}` : ""}
