@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 
 function MusicPlayer({ isRunning, isPaused }) {
   const [selectedTrack, setSelectedTrack] = useState("");
@@ -7,13 +7,56 @@ function MusicPlayer({ isRunning, isPaused }) {
   const audioRef = useRef(null);
   const fadeDuration = 2000; // 2초
 
+  const fadeIn = useCallback(() => {
+    const audio = audioRef.current;
+    let volume = 0.0;
+    audio.volume = volume;
+    const interval = setInterval(() => {
+      if (volume < 1.0) {
+        volume += 0.05;
+        audio.volume = Math.min(volume, 1.0);
+      } else {
+        clearInterval(interval);
+      }
+    }, fadeDuration / 20);
+    audio.play();
+  }, []);
+
+  const fadeOut = useCallback(() => {
+    const audio = audioRef.current;
+    let volume = audio.volume;
+    const interval = setInterval(() => {
+      if (volume > 0.0) {
+        volume -= 0.05;
+        audio.volume = Math.max(volume, 0.0);
+      } else {
+        clearInterval(interval);
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    }, fadeDuration / 20);
+  }, []);
+
+  const startWorkout = useCallback(() => {
+    if (!selectedTrack) return;
+    setIsPlaying(true);
+    fadeIn();
+    audioRef.current.loop = true;
+  }, [selectedTrack, fadeIn]);
+
+  const stopWorkout = useCallback(() => {
+    setIsPlaying(false);
+    fadeOut();
+    audioRef.current.loop = false;
+  }, [fadeOut]);
+
   useEffect(() => {
     if (isRunning && !isPaused) {
       startWorkout();
     } else {
       stopWorkout();
     }
-  }, [isRunning]);
+  }, [isRunning, isPaused, startWorkout, stopWorkout]);
 
   const tracks = [
     {
@@ -39,38 +82,6 @@ function MusicPlayer({ isRunning, isPaused }) {
     { name: "Sport Beat", file: "musics/Infraction-Sport-Beat-pr.mp3" },
   ];
 
-  // Fade-in 효과
-  const fadeIn = () => {
-    const audio = audioRef.current;
-    let volume = 0.0;
-    audio.volume = volume;
-    const interval = setInterval(() => {
-      if (volume < 1.0) {
-        volume += 0.05;
-        audio.volume = Math.min(volume, 1.0);
-      } else {
-        clearInterval(interval);
-      }
-    }, fadeDuration / 20);
-    audio.play();
-  };
-
-  // Fade-out 효과
-  const fadeOut = () => {
-    const audio = audioRef.current;
-    let volume = audio.volume;
-    const interval = setInterval(() => {
-      if (volume > 0.0) {
-        volume -= 0.05;
-        audio.volume = Math.max(volume, 0.0);
-      } else {
-        clearInterval(interval);
-        audio.pause();
-        audio.currentTime = 0; // 재생 위치 초기화
-      }
-    }, fadeDuration / 20);
-  };
-
   // 미리듣기 시작
   const startPreview = () => {
     if (!selectedTrack) return;
@@ -82,21 +93,6 @@ function MusicPlayer({ isRunning, isPaused }) {
   const stopPreview = () => {
     setIsPreview(false);
     fadeOut();
-  };
-
-  // 운동 시작과 함께 음악 시작
-  const startWorkout = () => {
-    if (!selectedTrack) return;
-    setIsPlaying(true);
-    fadeIn();
-    audioRef.current.loop = true; // 반복 재생
-  };
-
-  // 운동 멈춤
-  const stopWorkout = () => {
-    setIsPlaying(false);
-    fadeOut();
-    audioRef.current.loop = false;
   };
 
   return (

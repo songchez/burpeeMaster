@@ -31,7 +31,7 @@ export default function BupeeAnim({ isRunning, isPaused }) {
         clearInterval(imageIntervalRef.current);
       }
     };
-  }, [isRunning, isPaused]); // isRunning과 isPaused가 변경될 때마다 useEffect 실행
+  }, [isRunning, isPaused, burpeeImages.length]); // isRunning과 isPaused가 변경될 때마다 useEffect 실행
 
   return (
     <div className="flex justify-center w-12">
