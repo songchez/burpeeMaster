@@ -5,6 +5,7 @@ import ProgressBar from "./components/ProgressBar";
 import ControlButtons from "./components/ControlButtons";
 import ReadyFightOverlay from "./components/ReadyFightOverlay";
 import useWorkoutTimer from "./hooks/useWorkoutTimer";
+import MusicPlayer from "./components/MusicPlayer";
 
 function App() {
   const {
@@ -51,16 +52,21 @@ function App() {
       </h1>
 
       <ReadyFightOverlay readyText={readyText} />
-
-      {!isRunning && !isCompleted && (
-        <WorkoutSettings
-          count={count}
-          interval={interval}
-          onCountChange={setCount}
-          onIntervalChange={setIntervalTime}
-        />
-      )}
-
+      <div
+        className={`flex w-1/2 p-4 bg-white rounded shadow-lg mb-4 gap-7 ${
+          isRunning || isCompleted ? "hidden" : ""
+        }`}
+      >
+        {!isRunning && !isCompleted && (
+          <WorkoutSettings
+            count={count}
+            interval={interval}
+            onCountChange={setCount}
+            onIntervalChange={setIntervalTime}
+          />
+        )}
+        <MusicPlayer isRunning={isRunning} isPaused={isPaused} />
+      </div>
       {isRunning && (
         <>
           <CountdownDisplay

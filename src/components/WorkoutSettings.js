@@ -4,7 +4,9 @@ function WorkoutSettings({ count, interval, onCountChange, onIntervalChange }) {
   return (
     <div className="w-1/2 p-4 bg-white rounded shadow-lg mb-4">
       <div className="mb-4">
-        <label className="block text-lg font-medium mb-2">횟수:</label>
+        <label className="block text-lg font-medium text-black mb-2">
+          버피횟수
+        </label>
         <input
           type="number"
           min="1"
@@ -15,7 +17,9 @@ function WorkoutSettings({ count, interval, onCountChange, onIntervalChange }) {
       </div>
 
       <div className="mb-4">
-        <label className="block text-lg font-medium mb-2">간격 (초):</label>
+        <label className="block text-lg font-medium text-black mb-2">
+          운동간격 (초)
+        </label>
         <input
           type="number"
           min="1"
