@@ -43,7 +43,7 @@ function CountdownDisplay({ countdown, isCritical, interval, isPaused }) {
           strokeWidth="13"
           fill="none"
           strokeDasharray={circumference}
-          strokeDashoffset={!isPaused ? strokeDashoffset : 0}
+          strokeDashoffset={strokeDashoffset}
           strokeLinecap="round"
           style={{
             transition: "stroke-dashoffset 1s linear",
@@ -57,7 +57,7 @@ function CountdownDisplay({ countdown, isCritical, interval, isPaused }) {
           isCritical || countdown === 1 ? "text-red-500" : "text-white"
         }`}
       >
-        {countdown !== null ? `${countdown}` : ""}
+        {countdown !== null ? `${countdown}` : "🔥"}
       </p>
     </div>
   );
