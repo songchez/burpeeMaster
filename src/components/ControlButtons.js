@@ -10,7 +10,7 @@ function ControlButtons({
   onStop,
 }) {
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4 mb-10">
       {!isCompleted && (
         <>
           <button

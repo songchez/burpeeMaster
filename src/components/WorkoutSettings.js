@@ -2,7 +2,7 @@ import React from "react";
 
 function WorkoutSettings({ count, interval, onCountChange, onIntervalChange }) {
   return (
-    <div className="w-1/2 p-4 bg-white rounded shadow-lg mb-4">
+    <div className="md:w-1/2 p-4 bg-white rounded shadow-lg mb-4">
       <div className="mb-4">
         <label className="block text-xl font-bold text-black mb-2">
           버피횟수

@@ -6,6 +6,7 @@ import ControlButtons from "./components/ControlButtons";
 import ReadyFightOverlay from "./components/ReadyFightOverlay";
 import useWorkoutTimer from "./hooks/useWorkoutTimer";
 import MusicPlayer from "./components/MusicPlayer";
+import BuyMeABigMacWidget from "./components/BuyMeABigMacButton";
 
 function App() {
   const {
@@ -53,7 +54,7 @@ function App() {
 
       <ReadyFightOverlay readyText={readyText} />
       <div
-        className={`flex w-1/2 p-4 bg-white rounded shadow-lg mb-4 gap-7 ${
+        className={`md:flex md:w-1/2 p-4 bg-white rounded shadow-lg mb-4 gap-7 ${
           isRunning || isCompleted ? "hidden" : ""
         }`}
       >
@@ -84,7 +85,6 @@ function App() {
           />
         </>
       )}
-
       <ControlButtons
         isCompleted={isCompleted}
         isRunning={isRunning}
@@ -93,6 +93,8 @@ function App() {
         onPause={pauseWorkout}
         onStop={stopWorkout}
       />
+
+      <BuyMeABigMacWidget />
     </div>
   );
 }
