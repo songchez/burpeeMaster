@@ -55,7 +55,7 @@ function App() {
       <ReadyFightOverlay readyText={readyText} />
       <div
         className={`md:flex md:w-1/2 p-4 bg-white rounded shadow-lg mb-4 gap-7 ${
-          isRunning || isCompleted ? "hidden" : ""
+          (isRunning || isCompleted) && "md:hidden hidden"
         }`}
       >
         {!isRunning && !isCompleted && (
