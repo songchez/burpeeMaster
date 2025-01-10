@@ -60,26 +60,28 @@ function MusicPlayer({ isRunning, isPaused }) {
 
   const tracks = [
     {
-      name: "Infraction - Chemicals",
-      file: "musics/Infraction-Chemicals-pr.mp3",
+      name: "CineMetrix",
+      file: "musics/Cinematic Workout.mp3",
     },
     {
-      name: "Place To Hide",
-      file: "musics/Infraction-MOKKA-Place-To-Hide-pr.mp3",
+      name: "CyberPunk",
+      file: "musics/Cyberpunk Sport EDM.mp3",
     },
     {
       name: "Brand New Babe",
-      file: "musics/Infraction-Music-Brand-New-Babe-pr.mp3",
+      file: "musics/Electro Sport Music by Alexi Action.mp3",
     },
     {
-      name: "Rhythmic Boom",
-      file: "musics/Infraction-Music-Rhythmic-Boom.mp3",
+      name: "Up Energetic",
+      file: "musics/Energetic EDM Festival by Infraction.mp3",
     },
     {
       name: "Training Day",
-      file: "musics/Infraction-Training-Day-Main-Version-pr.mp3",
+      file: "musics/Rock Fitness.mp3",
     },
-    { name: "Sport Beat", file: "musics/Infraction-Sport-Beat-pr.mp3" },
+    { name: "Sport Beat", file: "Rock Sport Workout by Infraction.mp3" },
+    { name: "The Race", file: "Sport Rock Energy Racing by Infraction.mp3" },
+    { name: "More Harder", file: "Training Rock.mp3" },
   ];
 
   // 미리듣기 시작
