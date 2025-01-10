@@ -54,7 +54,7 @@ function App() {
 
       <ReadyFightOverlay readyText={readyText} />
       <div
-        className={`md:flex md:w-1/2 p-4 bg-white rounded shadow-lg mb-4 gap-7 ${
+        className={`md:flex md:w-1/2 max-w-xl p-4 md:justify-center bg-white rounded shadow-lg mb-4 gap-7 ${
           (isRunning || isCompleted) && "md:hidden hidden"
         }`}
       >
