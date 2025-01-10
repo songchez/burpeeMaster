@@ -79,9 +79,12 @@ function MusicPlayer({ isRunning, isPaused }) {
       name: "Training Day",
       file: "musics/Rock Fitness.mp3",
     },
-    { name: "Sport Beat", file: "Rock Sport Workout by Infraction.mp3" },
-    { name: "The Race", file: "Sport Rock Energy Racing by Infraction.mp3" },
-    { name: "More Harder", file: "Training Rock.mp3" },
+    { name: "Sport Beat", file: "musics/Rock Sport Workout by Infraction.mp3" },
+    {
+      name: "The Race",
+      file: "musics/Sport Rock Energy Racing by Infraction.mp3",
+    },
+    { name: "More Harder", file: "musics/Training Rock.mp3" },
   ];
 
   // 미리듣기 시작
