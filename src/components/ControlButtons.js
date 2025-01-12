@@ -20,6 +20,7 @@ function ControlButtons({
           >
             <FaPlay /> {isPaused ? "다시 시작" : "시작"}
           </button>
+
           <button
             onClick={onPause}
             className="btn btn-warning flex items-center gap-2"

@@ -132,7 +132,9 @@ function MusicPlayer({ isRunning, isPaused }) {
   const startWorkout = useCallback(async () => {
     if (!selectedTrack) return;
     setIsPlaying(true);
+
     const audio = getAudio();
+    audio.src = selectedTrack;
     if (audio) {
       await fadeIn(audio);
       await audio.play();
@@ -193,7 +195,7 @@ function MusicPlayer({ isRunning, isPaused }) {
           </select>
         </div>
 
-        <audio ref={audioRef} url={selectedTrack} preload="auto" />
+        <audio ref={audioRef} preload="auto" />
 
         {/* 컨트롤 버튼 */}
         <div className="flex justify-center">
