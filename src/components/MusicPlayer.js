@@ -6,6 +6,35 @@ function MusicPlayer({ isRunning, isPaused }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
   const fadeDuration = 700;
+  const tracks = [
+    { name: "CineMetrix", file: "musics/Cinematic Workout.mp3" },
+    { name: "CyberPunk", file: "musics/Cyberpunk Sport EDM.mp3" },
+    {
+      name: "Brand New Babe",
+      file: "musics/Electro Sport Music by Alexi Action.mp3",
+    },
+    {
+      name: "Up Energetic",
+      file: "musics/Energetic EDM Festival by Infraction.mp3",
+    },
+    { name: "Training Day", file: "musics/Rock Fitness.mp3" },
+    { name: "Sport Beat", file: "musics/Rock Sport Workout by Infraction.mp3" },
+    {
+      name: "The Race",
+      file: "musics/Sport Rock Energy Racing by Infraction.mp3",
+    },
+    { name: "More Harder", file: "musics/Training Rock.mp3" },
+  ];
+
+  // 동기처리를 위한 helper function
+  const getAudio = () => {
+    const audio = audioRef.current;
+    if (!audio) {
+      console.warn("audioRef.current가 초기화되지 않았습니다.");
+      return null;
+    }
+    return audio;
+  };
 
   // 음악 페이드인
   const fadeIn = useCallback(
@@ -50,27 +79,35 @@ function MusicPlayer({ isRunning, isPaused }) {
   // handleAudioTransition, startPreview, stopPreview, changeMusicPreview
   const handleAudioTransition = useCallback(
     async (newTrack) => {
-      const audio = audioRef.current;
+      const audio = getAudio();
+      if (!audio) return;
 
-      if (audio && !audio.paused) {
-        await fadeOut(audio); // 현재 음악을 페이드 아웃
-        audio.pause();
-        audio.currentTime = 0;
-      }
+      try {
+        if (!audio.paused) {
+          await fadeOut(audio);
+          audio.pause();
+          audio.currentTime = 0;
+        }
 
-      if (newTrack) {
-        audio.src = newTrack; // 새로운 트랙 설정
-        await fadeIn(audio); // 새로운 음악 페이드 인
-        audio.play();
+        if (newTrack) {
+          audio.src = newTrack;
+          await fadeIn(audio);
+          await audio.play();
+        }
+      } catch (error) {
+        console.error("오디오 재생 중 오류:", error);
+        // 에러 처리 로직 추가
       }
     },
     [fadeIn, fadeOut]
   );
+
   const startPreview = useCallback(async () => {
     if (!selectedTrack) return;
     setIsPreview(true);
     await handleAudioTransition(selectedTrack);
   }, [selectedTrack, handleAudioTransition]);
+
   const stopPreview = useCallback(async () => {
     setIsPreview(false);
     const audio = audioRef.current;
@@ -80,6 +117,7 @@ function MusicPlayer({ isRunning, isPaused }) {
       audio.currentTime = 0;
     }
   }, [fadeOut]);
+
   const changeMusicPreview = useCallback(
     async (newTrack) => {
       setSelectedTrack(newTrack);
@@ -91,46 +129,45 @@ function MusicPlayer({ isRunning, isPaused }) {
   );
 
   // 운동 시작과 종료시 음악재생
-  const startWorkout = useCallback(() => {
+  const startWorkout = useCallback(async () => {
     if (!selectedTrack) return;
     setIsPlaying(true);
-    fadeIn();
-    audioRef.current.loop = true;
+    const audio = getAudio();
+    if (audio) {
+      await fadeIn(audio);
+      await audio.play();
+      audio.loop = true;
+    }
   }, [selectedTrack, fadeIn]);
 
-  const stopWorkout = useCallback(() => {
+  const stopWorkout = useCallback(async () => {
     setIsPlaying(false);
-    fadeOut();
-    audioRef.current.loop = false;
+    const audio = getAudio();
+    if (audio) {
+      await fadeOut(audio);
+      audio.pause();
+      audio.currentTime = 0;
+      audio.loop = false;
+    }
   }, [fadeOut]);
 
   useEffect(() => {
+    // 컴포넌트 마운트 시 처리
     if (isRunning && !isPaused) {
       startWorkout();
     } else {
       stopWorkout();
     }
-  }, [isRunning, isPaused, startWorkout, stopWorkout]);
 
-  const tracks = [
-    { name: "CineMetrix", file: "musics/Cinematic Workout.mp3" },
-    { name: "CyberPunk", file: "musics/Cyberpunk Sport EDM.mp3" },
-    {
-      name: "Brand New Babe",
-      file: "musics/Electro Sport Music by Alexi Action.mp3",
-    },
-    {
-      name: "Up Energetic",
-      file: "musics/Energetic EDM Festival by Infraction.mp3",
-    },
-    { name: "Training Day", file: "musics/Rock Fitness.mp3" },
-    { name: "Sport Beat", file: "musics/Rock Sport Workout by Infraction.mp3" },
-    {
-      name: "The Race",
-      file: "musics/Sport Rock Energy Racing by Infraction.mp3",
-    },
-    { name: "More Harder", file: "musics/Training Rock.mp3" },
-  ];
+    // 언마운트 시 정리 작업 추가
+    return () => {
+      const audio = getAudio();
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    };
+  }, [isRunning, isPaused, startWorkout, stopWorkout]);
 
   return (
     <div className="py-1 my-3 bg-white md:w-1/2 md:h-full">
@@ -156,7 +193,7 @@ function MusicPlayer({ isRunning, isPaused }) {
           </select>
         </div>
 
-        <audio ref={audioRef} preload="auto" />
+        <audio ref={audioRef} url={selectedTrack} preload="auto" />
 
         {/* 컨트롤 버튼 */}
         <div className="flex justify-center">
